@@ -1,0 +1,19 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "172d6a25fdb3c493135f0407d0bf86d91841a5b151184f379fd0d7383d1094f1": {
+      "source": {
+        "path": "DevopsRestAppexecuterunnerstack3E97D5F9.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "172d6a25fdb3c493135f0407d0bf86d91841a5b151184f379fd0d7383d1094f1.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

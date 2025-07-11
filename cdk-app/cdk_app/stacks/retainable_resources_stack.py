@@ -17,8 +17,9 @@ class RetainableStack(Stack):
             _id: str,
             ** kwargs) -> None:
         super().__init__(scope, _id, cross_region_references=True, **kwargs)
+        self.create_ecr()
         self.create_s3_bucket()
-        self.ssm_param = ""
+        self.ssm_param = "/elb/token"
         self.version_parameter: ssm.StringParameter = self.create_ssm()
 
     def create_s3_bucket(self):
@@ -31,7 +32,7 @@ class RetainableStack(Stack):
     def create_ssm(self):
         versions = {'token': '@YMRCSdc4hPaj&qY'}
         version_parameter = ssm.StringParameter(self,
-                                                id='',
+                                                id='token-param',
                                                 parameter_name=self.ssm_param,
                                                 string_value=json.dumps(
                                                     versions)
@@ -41,6 +42,6 @@ class RetainableStack(Stack):
     def create_ecr(self):
         self.ecr_repo = ecr.Repository(
             self,
-            "ecr-repo",
+            "docker-repo",
             repository_name="ecr-repo",
         )

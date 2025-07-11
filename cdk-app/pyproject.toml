@@ -1,17 +1,15 @@
 [tool.poetry]
-name = "envs"
-version = "1.0.0"
+name = "cdk-app"
+version = "1.0.27"
 description = ""
-authors = ["Your Name <tomer.shoob@gmail.com>"]
+authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
-aws-cdk-lib = "2.94.0"
-constructs = "^10.3.0"
-boto3 = "^1.34.93"
+pydantic = "^2.7.1"
 toml = "^0.10.2"
+
 
 [build-system]
 requires = ["poetry-core"]

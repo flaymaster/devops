@@ -1,0 +1,938 @@
+{
+ "Resources": {
+  "MYVPCF8AC250A": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.90.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC"
+     }
+    ]
+   }
+  },
+  "MYVPCPublicSubnet1Subnet231BABBA": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.90.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPublicSubnet1RouteTableC6D24F10": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPublicSubnet1RouteTableAssociation2AC9FE90": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MYVPCPublicSubnet1RouteTableC6D24F10"
+    },
+    "SubnetId": {
+     "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+    }
+   }
+  },
+  "MYVPCPublicSubnet1DefaultRoute7B400641": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "MYVPCIGWEC683408"
+    },
+    "RouteTableId": {
+     "Ref": "MYVPCPublicSubnet1RouteTableC6D24F10"
+    }
+   },
+   "DependsOn": [
+    "MYVPCVPCGW987E8909"
+   ]
+  },
+  "MYVPCPublicSubnet1EIPE650FCBB": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+     }
+    ]
+   }
+  },
+  "MYVPCPublicSubnet1NATGateway6B580928": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "MYVPCPublicSubnet1EIPE650FCBB",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "MYVPCPublicSubnet1DefaultRoute7B400641",
+    "MYVPCPublicSubnet1RouteTableAssociation2AC9FE90"
+   ]
+  },
+  "MYVPCPublicSubnet2Subnet81E06D44": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.90.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPublicSubnet2RouteTable5D5A576B": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPublicSubnet2RouteTableAssociation0286C21A": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MYVPCPublicSubnet2RouteTable5D5A576B"
+    },
+    "SubnetId": {
+     "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+    }
+   }
+  },
+  "MYVPCPublicSubnet2DefaultRouteCC5BF009": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "MYVPCIGWEC683408"
+    },
+    "RouteTableId": {
+     "Ref": "MYVPCPublicSubnet2RouteTable5D5A576B"
+    }
+   },
+   "DependsOn": [
+    "MYVPCVPCGW987E8909"
+   ]
+  },
+  "MYVPCPublicSubnet2EIPC7695DBE": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+     }
+    ]
+   }
+  },
+  "MYVPCPublicSubnet2NATGateway54EB675A": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "MYVPCPublicSubnet2EIPC7695DBE",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "MYVPCPublicSubnet2DefaultRouteCC5BF009",
+    "MYVPCPublicSubnet2RouteTableAssociation0286C21A"
+   ]
+  },
+  "MYVPCPrivateSubnet1Subnet98E15749": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.90.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet1RouteTableDD0B4908": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet1RouteTableAssociationE4D5E5CB": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MYVPCPrivateSubnet1RouteTableDD0B4908"
+    },
+    "SubnetId": {
+     "Ref": "MYVPCPrivateSubnet1Subnet98E15749"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet1DefaultRoute07AF5100": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MYVPCPublicSubnet1NATGateway6B580928"
+    },
+    "RouteTableId": {
+     "Ref": "MYVPCPrivateSubnet1RouteTableDD0B4908"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet2SubnetF14E5BC9": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.90.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet2RouteTableC9075DDC": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet2RouteTableAssociation69145C5F": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MYVPCPrivateSubnet2RouteTableC9075DDC"
+    },
+    "SubnetId": {
+     "Ref": "MYVPCPrivateSubnet2SubnetF14E5BC9"
+    }
+   }
+  },
+  "MYVPCPrivateSubnet2DefaultRoute39DC7281": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MYVPCPublicSubnet2NATGateway54EB675A"
+    },
+    "RouteTableId": {
+     "Ref": "MYVPCPrivateSubnet2RouteTableC9075DDC"
+    }
+   }
+  },
+  "MYVPCIGWEC683408": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Devops-RestApp/execute-runner-stack/MYVPC"
+     }
+    ]
+   }
+  },
+  "MYVPCVPCGW987E8909": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "MYVPCIGWEC683408"
+    },
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "executionrunnerclusterDDF394A6": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "execution-runner",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ]
+   }
+  },
+  "executionrunnertaskrole09F3A4AB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:GetItem",
+          "dynamodb:Query",
+          "dynamodb:Scan"
+         ],
+         "Effect": "Allow",
+         "Resource": "*"
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "dynamodb_access"
+     }
+    ]
+   }
+  },
+  "executionrunnertaskdefinition709A237E": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         {
+          "Ref": "AWS::AccountId"
+         },
+         ".dkr.ecr.",
+         {
+          "Ref": "AWS::Region"
+         },
+         ".",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/ecr-repo:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F"
+        },
+        "awslogs-stream-prefix": "execution-runner",
+        "awslogs-region": {
+         "Ref": "AWS::Region"
+        },
+        "mode": "non-blocking"
+       }
+      },
+      "Name": "execution-runner-container",
+      "PortMappings": [
+       {
+        "ContainerPort": 80,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "executionrunnertaskdefinitionExecutionRole6F46BBE7",
+      "Arn"
+     ]
+    },
+    "Family": "execution-runner",
+    "Memory": "3072",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "OperatingSystemFamily": "LINUX"
+    },
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "executionrunnertaskrole09F3A4AB",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 30
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "executionrunnertaskdefinitionExecutionRole6F46BBE7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "executionrunnertaskdefinitionExecutionRoleDefaultPolicy7CE6F87D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:ecr:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":repository/execution-runner"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "executionrunnertaskdefinitionExecutionRoleDefaultPolicy7CE6F87D",
+    "Roles": [
+     {
+      "Ref": "executionrunnertaskdefinitionExecutionRole6F46BBE7"
+     }
+    ]
+   }
+  },
+  "MyServiceB4132EDA": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "executionrunnerclusterDDF394A6"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "execution-runner-container",
+      "ContainerPort": 80,
+      "TargetGroupArn": {
+       "Ref": "RestLoadBalancerListenerECSGroup470E34CA"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "ENABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "MyServiceSecurityGroup6281A313",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+       },
+       {
+        "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+       }
+      ]
+     }
+    },
+    "TaskDefinition": {
+     "Ref": "executionrunnertaskdefinition709A237E"
+    }
+   },
+   "DependsOn": [
+    "executionrunnertaskrole09F3A4AB",
+    "RestLoadBalancerListenerECSGroup470E34CA",
+    "RestLoadBalancerListenerBC90B3C4"
+   ]
+  },
+  "MyServiceSecurityGroup6281A313": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Devops-RestApp/execute-runner-stack/MyService/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   },
+   "DependsOn": [
+    "executionrunnertaskrole09F3A4AB"
+   ]
+  },
+  "MyServiceSecurityGroupfromDevopsRestAppexecuterunnerstackRestLoadBalancerSecurityGroup39E87B2380C2D6A988": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "FromPort": 80,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "MyServiceSecurityGroup6281A313",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "RestLoadBalancerSecurityGroupEC50D863",
+      "GroupId"
+     ]
+    },
+    "ToPort": 80
+   },
+   "DependsOn": [
+    "executionrunnertaskrole09F3A4AB"
+   ]
+  },
+  "RestLoadBalancer0DAC8286": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Name": "rest-load-balancer",
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "RestLoadBalancerSecurityGroupEC50D863",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     {
+      "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+     },
+     {
+      "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+     }
+    ],
+    "Type": "application"
+   },
+   "DependsOn": [
+    "MYVPCPublicSubnet1DefaultRoute7B400641",
+    "MYVPCPublicSubnet1RouteTableAssociation2AC9FE90",
+    "MYVPCPublicSubnet2DefaultRouteCC5BF009",
+    "MYVPCPublicSubnet2RouteTableAssociation0286C21A"
+   ]
+  },
+  "RestLoadBalancerSecurityGroupEC50D863": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatically created Security Group for ELB DevopsRestAppexecuterunnerstackRestLoadBalancerF0663AB8",
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow from anyone on port 80",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     }
+    ],
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "RestLoadBalancerSecurityGrouptoDevopsRestAppexecuterunnerstackMyServiceSecurityGroup1DA444B280419EBF1E": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "MyServiceSecurityGroup6281A313",
+      "GroupId"
+     ]
+    },
+    "FromPort": 80,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "RestLoadBalancerSecurityGroupEC50D863",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "ToPort": 80
+   }
+  },
+  "RestLoadBalancerListenerBC90B3C4": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "RestLoadBalancerListenerECSGroup470E34CA"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "RestLoadBalancer0DAC8286"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   }
+  },
+  "RestLoadBalancerListenerECSGroup470E34CA": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "Port": 80,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Ref": "MYVPCF8AC250A"
+    }
+   }
+  },
+  "bucketqueue62E0843A": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": "alias/aws/sqs",
+    "MessageRetentionPeriod": 120,
+    "QueueName": "bucket-queue",
+    "VisibilityTimeout": 900
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "DockerLambdaServiceRoleFB7B439F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "DockerLambda14243288": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ImageUri": {
+      "Fn::Join": [
+       "",
+       [
+        "472765722896.dkr.ecr.us-east-1.",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/ecr-repo:latest"
+       ]
+      ]
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "TOKEN_PARAM_NAME": "/elb/token"
+     }
+    },
+    "FunctionName": "docker-lambda",
+    "PackageType": "Image",
+    "Role": {
+     "Fn::GetAtt": [
+      "DockerLambdaServiceRoleFB7B439F",
+      "Arn"
+     ]
+    },
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "DockerLambdaServiceRoleFB7B439F"
+   ]
+  },
+  "DockerLambdaPdfreporttriggerlambda472C4BD0": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 1,
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "bucketqueue62E0843A",
+      "Arn"
+     ]
+    },
+    "FunctionName": {
+     "Ref": "DockerLambda14243288"
+    }
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

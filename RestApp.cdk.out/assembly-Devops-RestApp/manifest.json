@@ -1,0 +1,365 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "DevopsRestAppretainablestackC02340F2.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "DevopsRestAppretainablestackC02340F2.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "DevopsRestAppretainablestackC02340F2": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "DevopsRestAppretainablestackC02340F2.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b880c7f8bb5e271f480bcd34788a83caa324eff44a360f53ef41b4bfb9a72621.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "DevopsRestAppretainablestackC02340F2.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "Devops-RestApp-retainable-stack"
+      },
+      "dependencies": [
+        "DevopsRestAppretainablestackC02340F2.assets"
+      ],
+      "metadata": {
+        "/Devops-RestApp/retainable-stack/docker-repo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "dockerrepo402A8A40"
+          }
+        ],
+        "/Devops-RestApp/retainable-stack/s3-bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "s3bucket64CB25AF"
+          }
+        ],
+        "/Devops-RestApp/retainable-stack/token-param/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "tokenparam576DA50A"
+          }
+        ],
+        "/Devops-RestApp/retainable-stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Devops-RestApp/retainable-stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Devops-RestApp/retainable-stack"
+    },
+    "DevopsRestAppexecuterunnerstack3E97D5F9.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "DevopsRestAppexecuterunnerstack3E97D5F9.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "DevopsRestAppexecuterunnerstack3E97D5F9": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "DevopsRestAppexecuterunnerstack3E97D5F9.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/172d6a25fdb3c493135f0407d0bf86d91841a5b151184f379fd0d7383d1094f1.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "DevopsRestAppexecuterunnerstack3E97D5F9.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "Devops-RestApp-execute-runner-stack"
+      },
+      "dependencies": [
+        "DevopsRestAppexecuterunnerstack3E97D5F9.assets"
+      ],
+      "metadata": {
+        "/Devops-RestApp/execute-runner-stack/MYVPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCF8AC250A"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet1Subnet231BABBA"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet1RouteTableC6D24F10"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet1RouteTableAssociation2AC9FE90"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet1DefaultRoute7B400641"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet1EIPE650FCBB"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet1NATGateway6B580928"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet2Subnet81E06D44"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet2RouteTable5D5A576B"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet2RouteTableAssociation0286C21A"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet2DefaultRouteCC5BF009"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet2EIPC7695DBE"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPublicSubnet2NATGateway54EB675A"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet1Subnet98E15749"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet1RouteTableDD0B4908"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet1RouteTableAssociationE4D5E5CB"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet1DefaultRoute07AF5100"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet2SubnetF14E5BC9"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet2RouteTableC9075DDC"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet2RouteTableAssociation69145C5F"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCPrivateSubnet2DefaultRoute39DC7281"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCIGWEC683408"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MYVPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MYVPCVPCGW987E8909"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/execution-runner-cluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "executionrunnerclusterDDF394A6"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/execution-runner-task-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "executionrunnertaskrole09F3A4AB"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/execution-runner-task-definition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "executionrunnertaskdefinition709A237E"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/execution-runner-task-definition/execution-runner-container/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "executionrunnertaskdefinitionExecutionRole6F46BBE7"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "executionrunnertaskdefinitionExecutionRoleDefaultPolicy7CE6F87D"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MyService/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyServiceB4132EDA"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MyService/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyServiceSecurityGroup6281A313"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/MyService/SecurityGroup/from DevopsRestAppexecuterunnerstackRestLoadBalancerSecurityGroup39E87B23:80": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyServiceSecurityGroupfromDevopsRestAppexecuterunnerstackRestLoadBalancerSecurityGroup39E87B2380C2D6A988"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/RestLoadBalancer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestLoadBalancer0DAC8286"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/RestLoadBalancer/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestLoadBalancerSecurityGroupEC50D863"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/RestLoadBalancer/SecurityGroup/to DevopsRestAppexecuterunnerstackMyServiceSecurityGroup1DA444B2:80": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestLoadBalancerSecurityGrouptoDevopsRestAppexecuterunnerstackMyServiceSecurityGroup1DA444B280419EBF1E"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/RestLoadBalancer/Listener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestLoadBalancerListenerBC90B3C4"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/RestLoadBalancer/Listener/ECSGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestLoadBalancerListenerECSGroup470E34CA"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/bucket-queue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bucketqueue62E0843A"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DockerLambdaServiceRoleFB7B439F"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/DockerLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DockerLambda14243288"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/DockerLambda/Pdf_report_trigger_lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DockerLambdaPdfreporttriggerlambda472C4BD0"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Devops-RestApp/execute-runner-stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Devops-RestApp/execute-runner-stack"
+    }
+  }
+}

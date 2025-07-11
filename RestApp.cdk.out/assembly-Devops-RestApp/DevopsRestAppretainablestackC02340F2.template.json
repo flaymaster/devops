@@ -1,0 +1,62 @@
+{
+ "Resources": {
+  "dockerrepo402A8A40": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "RepositoryName": "ecr-repo"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "s3bucket64CB25AF": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "s3-bucket"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "tokenparam576DA50A": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/elb/token",
+    "Type": "String",
+    "Value": "{\"token\": \"@YMRCSdc4hPaj&qY\"}"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

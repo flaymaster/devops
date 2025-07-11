@@ -1,0 +1,19 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "b880c7f8bb5e271f480bcd34788a83caa324eff44a360f53ef41b4bfb9a72621": {
+      "source": {
+        "path": "DevopsRestAppretainablestackC02340F2.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "b880c7f8bb5e271f480bcd34788a83caa324eff44a360f53ef41b4bfb9a72621.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

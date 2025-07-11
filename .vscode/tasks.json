@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build restapp",
+            "type": "shell",
+            "command": "cd scripts && source .venv/bin/activate && python3 build_cdk.py ",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always"
+            }
+        }
+    ]
+}

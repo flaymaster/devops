@@ -1,0 +1,1639 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Devops-RestApp": {
+        "id": "Devops-RestApp",
+        "path": "Devops-RestApp",
+        "children": {
+          "retainable-stack": {
+            "id": "retainable-stack",
+            "path": "Devops-RestApp/retainable-stack",
+            "children": {
+              "docker-repo": {
+                "id": "docker-repo",
+                "path": "Devops-RestApp/retainable-stack/docker-repo",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/retainable-stack/docker-repo/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ECR::Repository",
+                      "aws:cdk:cloudformation:props": {
+                        "repositoryName": "ecr-repo"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ecr.CfnRepository",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecr.Repository",
+                  "version": "2.94.0"
+                }
+              },
+              "s3-bucket": {
+                "id": "s3-bucket",
+                "path": "Devops-RestApp/retainable-stack/s3-bucket",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/retainable-stack/s3-bucket/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                      "aws:cdk:cloudformation:props": {
+                        "bucketName": "s3-bucket"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.Bucket",
+                  "version": "2.94.0"
+                }
+              },
+              "token-param": {
+                "id": "token-param",
+                "path": "Devops-RestApp/retainable-stack/token-param",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/retainable-stack/token-param/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "/elb/token",
+                        "type": "String",
+                        "value": "{\"token\": \"@YMRCSdc4hPaj&qY\"}"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+                  "version": "2.94.0"
+                }
+              },
+              "BootstrapVersion": {
+                "id": "BootstrapVersion",
+                "path": "Devops-RestApp/retainable-stack/BootstrapVersion",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnParameter",
+                  "version": "2.94.0"
+                }
+              },
+              "CheckBootstrapVersion": {
+                "id": "CheckBootstrapVersion",
+                "path": "Devops-RestApp/retainable-stack/CheckBootstrapVersion",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnRule",
+                  "version": "2.94.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Stack",
+              "version": "2.94.0"
+            }
+          },
+          "execute-runner-stack": {
+            "id": "execute-runner-stack",
+            "path": "Devops-RestApp/execute-runner-stack",
+            "children": {
+              "MYVPC": {
+                "id": "MYVPC",
+                "path": "Devops-RestApp/execute-runner-stack/MYVPC",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.90.0.0/16",
+                        "enableDnsHostnames": true,
+                        "enableDnsSupport": true,
+                        "instanceTenancy": "default",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "Devops-RestApp/execute-runner-stack/MYVPC"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnVPC",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "PublicSubnet1": {
+                    "id": "PublicSubnet1",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1",
+                    "children": {
+                      "Subnet": {
+                        "id": "Subnet",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/Subnet",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                          "aws:cdk:cloudformation:props": {
+                            "availabilityZone": {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::GetAZs": ""
+                                }
+                              ]
+                            },
+                            "cidrBlock": "10.90.0.0/18",
+                            "mapPublicIpOnLaunch": true,
+                            "tags": [
+                              {
+                                "key": "aws-cdk:subnet-name",
+                                "value": "Public"
+                              },
+                              {
+                                "key": "aws-cdk:subnet-type",
+                                "value": "Public"
+                              },
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "Acl": {
+                        "id": "Acl",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/Acl",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTable": {
+                        "id": "RouteTable",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/RouteTable",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                          "aws:cdk:cloudformation:props": {
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTableAssociation": {
+                        "id": "RouteTableAssociation",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/RouteTableAssociation",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "MYVPCPublicSubnet1RouteTableC6D24F10"
+                            },
+                            "subnetId": {
+                              "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "gatewayId": {
+                              "Ref": "MYVPCIGWEC683408"
+                            },
+                            "routeTableId": {
+                              "Ref": "MYVPCPublicSubnet1RouteTableC6D24F10"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "EIP": {
+                        "id": "EIP",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/EIP",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
+                          "aws:cdk:cloudformation:props": {
+                            "domain": "vpc",
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnEIP",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "NATGateway": {
+                        "id": "NATGateway",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1/NATGateway",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
+                          "aws:cdk:cloudformation:props": {
+                            "allocationId": {
+                              "Fn::GetAtt": [
+                                "MYVPCPublicSubnet1EIPE650FCBB",
+                                "AllocationId"
+                              ]
+                            },
+                            "subnetId": {
+                              "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+                            },
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet1"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnNatGateway",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "PublicSubnet2": {
+                    "id": "PublicSubnet2",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2",
+                    "children": {
+                      "Subnet": {
+                        "id": "Subnet",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/Subnet",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                          "aws:cdk:cloudformation:props": {
+                            "availabilityZone": {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::GetAZs": ""
+                                }
+                              ]
+                            },
+                            "cidrBlock": "10.90.64.0/18",
+                            "mapPublicIpOnLaunch": true,
+                            "tags": [
+                              {
+                                "key": "aws-cdk:subnet-name",
+                                "value": "Public"
+                              },
+                              {
+                                "key": "aws-cdk:subnet-type",
+                                "value": "Public"
+                              },
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "Acl": {
+                        "id": "Acl",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/Acl",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTable": {
+                        "id": "RouteTable",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/RouteTable",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                          "aws:cdk:cloudformation:props": {
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTableAssociation": {
+                        "id": "RouteTableAssociation",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/RouteTableAssociation",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "MYVPCPublicSubnet2RouteTable5D5A576B"
+                            },
+                            "subnetId": {
+                              "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "gatewayId": {
+                              "Ref": "MYVPCIGWEC683408"
+                            },
+                            "routeTableId": {
+                              "Ref": "MYVPCPublicSubnet2RouteTable5D5A576B"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "EIP": {
+                        "id": "EIP",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/EIP",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
+                          "aws:cdk:cloudformation:props": {
+                            "domain": "vpc",
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnEIP",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "NATGateway": {
+                        "id": "NATGateway",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2/NATGateway",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
+                          "aws:cdk:cloudformation:props": {
+                            "allocationId": {
+                              "Fn::GetAtt": [
+                                "MYVPCPublicSubnet2EIPC7695DBE",
+                                "AllocationId"
+                              ]
+                            },
+                            "subnetId": {
+                              "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+                            },
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PublicSubnet2"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnNatGateway",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "PrivateSubnet1": {
+                    "id": "PrivateSubnet1",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1",
+                    "children": {
+                      "Subnet": {
+                        "id": "Subnet",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/Subnet",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                          "aws:cdk:cloudformation:props": {
+                            "availabilityZone": {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::GetAZs": ""
+                                }
+                              ]
+                            },
+                            "cidrBlock": "10.90.128.0/18",
+                            "mapPublicIpOnLaunch": false,
+                            "tags": [
+                              {
+                                "key": "aws-cdk:subnet-name",
+                                "value": "Private"
+                              },
+                              {
+                                "key": "aws-cdk:subnet-type",
+                                "value": "Private"
+                              },
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "Acl": {
+                        "id": "Acl",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/Acl",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTable": {
+                        "id": "RouteTable",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/RouteTable",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                          "aws:cdk:cloudformation:props": {
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTableAssociation": {
+                        "id": "RouteTableAssociation",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/RouteTableAssociation",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "MYVPCPrivateSubnet1RouteTableDD0B4908"
+                            },
+                            "subnetId": {
+                              "Ref": "MYVPCPrivateSubnet1Subnet98E15749"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet1/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "natGatewayId": {
+                              "Ref": "MYVPCPublicSubnet1NATGateway6B580928"
+                            },
+                            "routeTableId": {
+                              "Ref": "MYVPCPrivateSubnet1RouteTableDD0B4908"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.PrivateSubnet",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "PrivateSubnet2": {
+                    "id": "PrivateSubnet2",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2",
+                    "children": {
+                      "Subnet": {
+                        "id": "Subnet",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/Subnet",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                          "aws:cdk:cloudformation:props": {
+                            "availabilityZone": {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::GetAZs": ""
+                                }
+                              ]
+                            },
+                            "cidrBlock": "10.90.192.0/18",
+                            "mapPublicIpOnLaunch": false,
+                            "tags": [
+                              {
+                                "key": "aws-cdk:subnet-name",
+                                "value": "Private"
+                              },
+                              {
+                                "key": "aws-cdk:subnet-type",
+                                "value": "Private"
+                              },
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "Acl": {
+                        "id": "Acl",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/Acl",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTable": {
+                        "id": "RouteTable",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/RouteTable",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                          "aws:cdk:cloudformation:props": {
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "RouteTableAssociation": {
+                        "id": "RouteTableAssociation",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/RouteTableAssociation",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "MYVPCPrivateSubnet2RouteTableC9075DDC"
+                            },
+                            "subnetId": {
+                              "Ref": "MYVPCPrivateSubnet2SubnetF14E5BC9"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "Devops-RestApp/execute-runner-stack/MYVPC/PrivateSubnet2/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "natGatewayId": {
+                              "Ref": "MYVPCPublicSubnet2NATGateway54EB675A"
+                            },
+                            "routeTableId": {
+                              "Ref": "MYVPCPrivateSubnet2RouteTableC9075DDC"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.PrivateSubnet",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "IGW": {
+                    "id": "IGW",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/IGW",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
+                      "aws:cdk:cloudformation:props": {
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "Devops-RestApp/execute-runner-stack/MYVPC"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnInternetGateway",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "VPCGW": {
+                    "id": "VPCGW",
+                    "path": "Devops-RestApp/execute-runner-stack/MYVPC/VPCGW",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
+                      "aws:cdk:cloudformation:props": {
+                        "internetGatewayId": {
+                          "Ref": "MYVPCIGWEC683408"
+                        },
+                        "vpcId": {
+                          "Ref": "MYVPCF8AC250A"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnVPCGatewayAttachment",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.Vpc",
+                  "version": "2.94.0"
+                }
+              },
+              "execution-runner-cluster": {
+                "id": "execution-runner-cluster",
+                "path": "Devops-RestApp/execute-runner-stack/execution-runner-cluster",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/execution-runner-cluster/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ECS::Cluster",
+                      "aws:cdk:cloudformation:props": {
+                        "clusterName": "execution-runner",
+                        "clusterSettings": [
+                          {
+                            "name": "containerInsights",
+                            "value": "enabled"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ecs.CfnCluster",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.Cluster",
+                  "version": "2.94.0"
+                }
+              },
+              "execution-runner-task-role": {
+                "id": "execution-runner-task-role",
+                "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-role",
+                "children": {
+                  "Importexecution-runner-task-role": {
+                    "id": "Importexecution-runner-task-role",
+                    "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-role/Importexecution-runner-task-role",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-role/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policies": [
+                          {
+                            "policyName": "dynamodb_access",
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:PutItem",
+                                    "dynamodb:UpdateItem",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.94.0"
+                }
+              },
+              "execution-runner-task-definition": {
+                "id": "execution-runner-task-definition",
+                "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                      "aws:cdk:cloudformation:props": {
+                        "containerDefinitions": [
+                          {
+                            "essential": true,
+                            "image": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ".dkr.ecr.",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".",
+                                  {
+                                    "Ref": "AWS::URLSuffix"
+                                  },
+                                  "/ecr-repo:latest"
+                                ]
+                              ]
+                            },
+                            "name": "execution-runner-container",
+                            "portMappings": [
+                              {
+                                "containerPort": 80,
+                                "protocol": "tcp"
+                              }
+                            ],
+                            "logConfiguration": {
+                              "logDriver": "awslogs",
+                              "options": {
+                                "awslogs-group": {
+                                  "Ref": "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F"
+                                },
+                                "awslogs-stream-prefix": "execution-runner",
+                                "awslogs-region": {
+                                  "Ref": "AWS::Region"
+                                },
+                                "mode": "non-blocking"
+                              }
+                            }
+                          }
+                        ],
+                        "cpu": "1024",
+                        "executionRoleArn": {
+                          "Fn::GetAtt": [
+                            "executionrunnertaskdefinitionExecutionRole6F46BBE7",
+                            "Arn"
+                          ]
+                        },
+                        "family": "execution-runner",
+                        "memory": "3072",
+                        "networkMode": "awsvpc",
+                        "requiresCompatibilities": [
+                          "FARGATE"
+                        ],
+                        "runtimePlatform": {
+                          "operatingSystemFamily": "LINUX"
+                        },
+                        "taskRoleArn": {
+                          "Fn::GetAtt": [
+                            "executionrunnertaskrole09F3A4AB",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "execution-runner-container": {
+                    "id": "execution-runner-container",
+                    "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/execution-runner-container",
+                    "children": {
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/execution-runner-container/LogGroup",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/execution-runner-container/LogGroup/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                              "aws:cdk:cloudformation:props": {
+                                "retentionInDays": 30
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                              "version": "2.94.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "ExecutionRole": {
+                    "id": "ExecutionRole",
+                    "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole",
+                    "children": {
+                      "ImportExecutionRole": {
+                        "id": "ImportExecutionRole",
+                        "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole/ImportExecutionRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "ecs-tasks.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "Devops-RestApp/execute-runner-stack/execution-runner-task-definition/ExecutionRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "ecr:BatchCheckLayerAvailability",
+                                        "ecr:GetDownloadUrlForLayer",
+                                        "ecr:BatchGetImage"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:aws:ecr:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":repository/execution-runner"
+                                          ]
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "Action": "ecr:GetAuthorizationToken",
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": [
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F",
+                                          "Arn"
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "executionrunnertaskdefinitionExecutionRoleDefaultPolicy7CE6F87D",
+                                "roles": [
+                                  {
+                                    "Ref": "executionrunnertaskdefinitionExecutionRole6F46BBE7"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.94.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.FargateTaskDefinition",
+                  "version": "2.94.0"
+                }
+              },
+              "execution-runner-repo": {
+                "id": "execution-runner-repo",
+                "path": "Devops-RestApp/execute-runner-stack/execution-runner-repo",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecr.RepositoryBase",
+                  "version": "2.94.0"
+                }
+              },
+              "MyService": {
+                "id": "MyService",
+                "path": "Devops-RestApp/execute-runner-stack/MyService",
+                "children": {
+                  "Service": {
+                    "id": "Service",
+                    "path": "Devops-RestApp/execute-runner-stack/MyService/Service",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "cluster": {
+                          "Ref": "executionrunnerclusterDDF394A6"
+                        },
+                        "deploymentConfiguration": {
+                          "maximumPercent": 200,
+                          "minimumHealthyPercent": 50,
+                          "alarms": {
+                            "alarmNames": [],
+                            "enable": false,
+                            "rollback": false
+                          }
+                        },
+                        "desiredCount": 1,
+                        "enableEcsManagedTags": false,
+                        "healthCheckGracePeriodSeconds": 60,
+                        "launchType": "FARGATE",
+                        "loadBalancers": [
+                          {
+                            "targetGroupArn": {
+                              "Ref": "RestLoadBalancerListenerECSGroup470E34CA"
+                            },
+                            "containerName": "execution-runner-container",
+                            "containerPort": 80
+                          }
+                        ],
+                        "networkConfiguration": {
+                          "awsvpcConfiguration": {
+                            "assignPublicIp": "ENABLED",
+                            "subnets": [
+                              {
+                                "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+                              },
+                              {
+                                "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+                              }
+                            ],
+                            "securityGroups": [
+                              {
+                                "Fn::GetAtt": [
+                                  "MyServiceSecurityGroup6281A313",
+                                  "GroupId"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "taskDefinition": {
+                          "Ref": "executionrunnertaskdefinition709A237E"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "SecurityGroup": {
+                    "id": "SecurityGroup",
+                    "path": "Devops-RestApp/execute-runner-stack/MyService/SecurityGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Devops-RestApp/execute-runner-stack/MyService/SecurityGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "groupDescription": "Devops-RestApp/execute-runner-stack/MyService/SecurityGroup",
+                            "securityGroupEgress": [
+                              {
+                                "cidrIp": "0.0.0.0/0",
+                                "description": "Allow all outbound traffic by default",
+                                "ipProtocol": "-1"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "from DevopsRestAppexecuterunnerstackRestLoadBalancerSecurityGroup39E87B23:80": {
+                        "id": "from DevopsRestAppexecuterunnerstackRestLoadBalancerSecurityGroup39E87B23:80",
+                        "path": "Devops-RestApp/execute-runner-stack/MyService/SecurityGroup/from DevopsRestAppexecuterunnerstackRestLoadBalancerSecurityGroup39E87B23:80",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                          "aws:cdk:cloudformation:props": {
+                            "description": "Load balancer to target",
+                            "fromPort": 80,
+                            "groupId": {
+                              "Fn::GetAtt": [
+                                "MyServiceSecurityGroup6281A313",
+                                "GroupId"
+                              ]
+                            },
+                            "ipProtocol": "tcp",
+                            "sourceSecurityGroupId": {
+                              "Fn::GetAtt": [
+                                "RestLoadBalancerSecurityGroupEC50D863",
+                                "GroupId"
+                              ]
+                            },
+                            "toPort": 80
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.FargateService",
+                  "version": "2.94.0"
+                }
+              },
+              "RestLoadBalancer": {
+                "id": "RestLoadBalancer",
+                "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+                      "aws:cdk:cloudformation:props": {
+                        "loadBalancerAttributes": [
+                          {
+                            "key": "deletion_protection.enabled",
+                            "value": "false"
+                          }
+                        ],
+                        "name": "rest-load-balancer",
+                        "scheme": "internet-facing",
+                        "securityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "RestLoadBalancerSecurityGroupEC50D863",
+                              "GroupId"
+                            ]
+                          }
+                        ],
+                        "subnets": [
+                          {
+                            "Ref": "MYVPCPublicSubnet1Subnet231BABBA"
+                          },
+                          {
+                            "Ref": "MYVPCPublicSubnet2Subnet81E06D44"
+                          }
+                        ],
+                        "type": "application"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "SecurityGroup": {
+                    "id": "SecurityGroup",
+                    "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/SecurityGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/SecurityGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "groupDescription": "Automatically created Security Group for ELB DevopsRestAppexecuterunnerstackRestLoadBalancerF0663AB8",
+                            "securityGroupIngress": [
+                              {
+                                "cidrIp": "0.0.0.0/0",
+                                "ipProtocol": "tcp",
+                                "fromPort": 80,
+                                "toPort": 80,
+                                "description": "Allow from anyone on port 80"
+                              }
+                            ],
+                            "vpcId": {
+                              "Ref": "MYVPCF8AC250A"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "to DevopsRestAppexecuterunnerstackMyServiceSecurityGroup1DA444B2:80": {
+                        "id": "to DevopsRestAppexecuterunnerstackMyServiceSecurityGroup1DA444B2:80",
+                        "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/SecurityGroup/to DevopsRestAppexecuterunnerstackMyServiceSecurityGroup1DA444B2:80",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                          "aws:cdk:cloudformation:props": {
+                            "description": "Load balancer to target",
+                            "destinationSecurityGroupId": {
+                              "Fn::GetAtt": [
+                                "MyServiceSecurityGroup6281A313",
+                                "GroupId"
+                              ]
+                            },
+                            "fromPort": 80,
+                            "groupId": {
+                              "Fn::GetAtt": [
+                                "RestLoadBalancerSecurityGroupEC50D863",
+                                "GroupId"
+                              ]
+                            },
+                            "ipProtocol": "tcp",
+                            "toPort": 80
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "Listener": {
+                    "id": "Listener",
+                    "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/Listener",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/Listener/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                          "aws:cdk:cloudformation:props": {
+                            "defaultActions": [
+                              {
+                                "type": "forward",
+                                "targetGroupArn": {
+                                  "Ref": "RestLoadBalancerListenerECSGroup470E34CA"
+                                }
+                              }
+                            ],
+                            "loadBalancerArn": {
+                              "Ref": "RestLoadBalancer0DAC8286"
+                            },
+                            "port": 80,
+                            "protocol": "HTTP"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "ECSGroup": {
+                        "id": "ECSGroup",
+                        "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/Listener/ECSGroup",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "Devops-RestApp/execute-runner-stack/RestLoadBalancer/Listener/ECSGroup/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                              "aws:cdk:cloudformation:props": {
+                                "port": 80,
+                                "protocol": "HTTP",
+                                "targetGroupAttributes": [
+                                  {
+                                    "key": "stickiness.enabled",
+                                    "value": "false"
+                                  }
+                                ],
+                                "targetType": "ip",
+                                "vpcId": {
+                                  "Ref": "MYVPCF8AC250A"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                              "version": "2.94.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+                  "version": "2.94.0"
+                }
+              },
+              "bucket-queue": {
+                "id": "bucket-queue",
+                "path": "Devops-RestApp/execute-runner-stack/bucket-queue",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/bucket-queue/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "kmsMasterKeyId": "alias/aws/sqs",
+                        "messageRetentionPeriod": 120,
+                        "queueName": "bucket-queue",
+                        "visibilityTimeout": 900
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.Queue",
+                  "version": "2.94.0"
+                }
+              },
+              "docker-repo": {
+                "id": "docker-repo",
+                "path": "Devops-RestApp/execute-runner-stack/docker-repo",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecr.RepositoryBase",
+                  "version": "2.94.0"
+                }
+              },
+              "DockerLambda": {
+                "id": "DockerLambda",
+                "path": "Devops-RestApp/execute-runner-stack/DockerLambda",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/DockerLambda/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "imageUri": {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "472765722896.dkr.ecr.us-east-1.",
+                                {
+                                  "Ref": "AWS::URLSuffix"
+                                },
+                                "/ecr-repo:latest"
+                              ]
+                            ]
+                          }
+                        },
+                        "environment": {
+                          "variables": {
+                            "TOKEN_PARAM_NAME": "/elb/token"
+                          }
+                        },
+                        "functionName": "docker-lambda",
+                        "packageType": "Image",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "DockerLambdaServiceRoleFB7B439F",
+                            "Arn"
+                          ]
+                        },
+                        "timeout": 60
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.94.0"
+                    }
+                  },
+                  "Pdf_report_trigger_lambda": {
+                    "id": "Pdf_report_trigger_lambda",
+                    "path": "Devops-RestApp/execute-runner-stack/DockerLambda/Pdf_report_trigger_lambda",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "Devops-RestApp/execute-runner-stack/DockerLambda/Pdf_report_trigger_lambda/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                          "aws:cdk:cloudformation:props": {
+                            "batchSize": 1,
+                            "eventSourceArn": {
+                              "Fn::GetAtt": [
+                                "bucketqueue62E0843A",
+                                "Arn"
+                              ]
+                            },
+                            "functionName": {
+                              "Ref": "DockerLambda14243288"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                          "version": "2.94.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.DockerImageFunction",
+                  "version": "2.94.0"
+                }
+              },
+              "BootstrapVersion": {
+                "id": "BootstrapVersion",
+                "path": "Devops-RestApp/execute-runner-stack/BootstrapVersion",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnParameter",
+                  "version": "2.94.0"
+                }
+              },
+              "CheckBootstrapVersion": {
+                "id": "CheckBootstrapVersion",
+                "path": "Devops-RestApp/execute-runner-stack/CheckBootstrapVersion",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnRule",
+                  "version": "2.94.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Stack",
+              "version": "2.94.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stage",
+          "version": "2.94.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.4.2"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.94.0"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 FROM public.ecr.aws/lambda/python:3.10
 
-WORKDIR /app
+WORKDIR /opt
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:/root/.local/bin"

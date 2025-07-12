@@ -11,7 +11,7 @@ if [ -z "$SERVICE" ]; then
 fi
 
 ECR_URI="472765722896.dkr.ecr.us-east-1.amazonaws.com/$SERVICE"
-DOCKER_DIR="services/docker"
+DOCKER_DIR="docker"
 
 # Login to ECR
 docker login --username AWS -p $(aws ecr get-login-password --region $AWS_REGION) 472765722896.dkr.ecr.us-east-1.amazonaws.com

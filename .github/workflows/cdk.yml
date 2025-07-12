@@ -51,6 +51,7 @@ jobs:
         - name: Install CDK dependencies
           run: |
             cd cdk-app
+            rm -rf poetry.lock
             pip install poetry
             poetry install
         - name: CDK Synth

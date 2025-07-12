@@ -1,6 +1,6 @@
 # This workflow contains two jobs: one for building Docker images in parallel, and one for CDK synth and deploy.
 
-name: CI
+name: Docker Build and Push
 
 on:
   pull_request:

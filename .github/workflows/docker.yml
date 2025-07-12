@@ -1,0 +1,67 @@
+# This workflow contains two jobs: one for building Docker images in parallel, and one for CDK synth and deploy.
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Docker image tag to use for build and push'
+        required: false
+        default: 'latest'
+
+jobs:
+  check-access:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Verify AWS credentials
+        run: |
+          aws sts get-caller-identity
+
+  build-rest-docker:
+    name: Build rest-docker
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_TAG: ${{ github.event.inputs.docker_tag || 'latest' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build rest-docker
+        run: bash scripts/build_docker.sh rest-docker "$DOCKER_TAG"
+
+  build-queue-docker:
+    name: Build queue-docker
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_TAG: ${{ github.event.inputs.docker_tag || 'latest' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build queue-docker
+        run: bash scripts/build_docker.sh queue-docker "$DOCKER_TAG"
+      

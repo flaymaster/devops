@@ -44,7 +44,8 @@ def handle_event():
 
         # Send to SQS
         queue_url = os.environ["SQS_QUEUE_URL"]
-        sqs.send_message(QueueUrl=queue_url, MessageBody=request.data.decode())
+        sqs.send_message(QueueUrl=queue_url,
+                         MessageBody=payload['data'])
 
         return jsonify({"message": "Accepted"}), 200
 

@@ -5,9 +5,14 @@ WORKDIR /app
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:/root/.local/bin"
 
-COPY src/rest_docker/app.py .
+COPY pyproject.toml ./
 
-ENV FLASK_APP=src/rest_docker/app.py
+# Install dependencies
+RUN poetry install --no-root
+
+COPY src/rest_docker/app.py ./rest_docker/app.py
+
+ENV FLASK_APP=docker/rest-docker/src/rest_docker/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=80
 

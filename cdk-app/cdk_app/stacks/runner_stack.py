@@ -23,12 +23,12 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
         super().__init__(scope, _id, **kwargs)
         self.vpc = self.create_vpc(
             cidr_block="10.90.0.0/16")
+        self.rest_docker_tag = os.environ.get("REST_DOCKER_TAG", "latest")
+        self.lambda_docker_tag = os.environ.get("LAMBDA_DOCKER_TAG", "latest")
         self.create_execution_runner()
         self.create_rest_load_balancer()
         self.create_sqs()
         self.create_docker_lambda()
-        self.rest_docker_tag = os.environ.get("REST_DOCKER_TAG", "latest")
-        self.lambda_docker_tag = os.environ.get("LAMBDA_DOCKER_TAG", "latest")
 
     def create_vpc(self, cidr_block):
         # Create VPC with proper subnet configuration
@@ -97,10 +97,11 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
         container = runner_task_definition.add_container(
             f'{name}-container',
             image=ecs.ContainerImage.from_ecr_repository(
-                repository=ecr.Repository.from_repository_arn(
+                repository=ecr.Repository.from_repository_attributes(
                     self,
                     f'{name}-repo',
-                    repository_arn=f'arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/{name}'
+                    repository_arn=f'arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/rest-docker',  # noqa
+                    repository_name='rest-docker'
                 ),
                 tag=self.rest_docker_tag
             ),
@@ -141,10 +142,11 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             "DockerLambda",
             function_name="docker-lambda",
             code=aws_lambda.DockerImageCode.from_ecr(
-                repository=ecr.Repository.from_repository_arn(
+                repository=ecr.Repository.from_repository_attributes(
                     self,
                     "docker-lambda-repo",
-                    repository_arn=f"arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/docker-lambda"
+                    repository_arn=f"arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/queue-docker",
+                    repository_name="queue-docker"
                 ),
                 tag=self.lambda_docker_tag
             ),

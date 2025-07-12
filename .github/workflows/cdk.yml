@@ -57,7 +57,7 @@ jobs:
         - name: CDK Synth
           run: |
             cd cdk-app
-            poetry run python scripts/build_cdk.py
+            poetry run python ../scripts/build_cdk.py
         - name: Set Docker tags and deploy CDK
           env:
             REST_DOCKER_TAG: ${{ github.sha }}

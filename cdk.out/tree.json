@@ -12,30 +12,6 @@
             "id": "retainable-stack",
             "path": "Devops-RestApp/retainable-stack",
             "children": {
-              "docker-repo": {
-                "id": "docker-repo",
-                "path": "Devops-RestApp/retainable-stack/docker-repo",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "Devops-RestApp/retainable-stack/docker-repo/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::ECR::Repository",
-                      "aws:cdk:cloudformation:props": {
-                        "repositoryName": "ecr-repo"
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ecr.CfnRepository",
-                      "version": "2.94.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ecr.Repository",
-                  "version": "2.94.0"
-                }
-              },
               "s3-bucket": {
                 "id": "s3-bucket",
                 "path": "Devops-RestApp/retainable-stack/s3-bucket",
@@ -877,7 +853,7 @@
                                   {
                                     "Ref": "AWS::URLSuffix"
                                   },
-                                  "/ecr-repo:latest"
+                                  "/rest-docker:latest"
                                 ]
                               ]
                             },
@@ -1034,7 +1010,7 @@
                                             {
                                               "Ref": "AWS::AccountId"
                                             },
-                                            ":repository/execution-runner"
+                                            ":repository/rest-docker"
                                           ]
                                         ]
                                       }
@@ -1445,9 +1421,9 @@
                   "version": "2.94.0"
                 }
               },
-              "docker-repo": {
-                "id": "docker-repo",
-                "path": "Devops-RestApp/execute-runner-stack/docker-repo",
+              "docker-lambda-repo": {
+                "id": "docker-lambda-repo",
+                "path": "Devops-RestApp/execute-runner-stack/docker-lambda-repo",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_ecr.RepositoryBase",
                   "version": "2.94.0"
@@ -1525,11 +1501,18 @@
                             "Fn::Join": [
                               "",
                               [
-                                "472765722896.dkr.ecr.us-east-1.",
+                                {
+                                  "Ref": "AWS::AccountId"
+                                },
+                                ".dkr.ecr.",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                ".",
                                 {
                                   "Ref": "AWS::URLSuffix"
                                 },
-                                "/ecr-repo:latest"
+                                "/queue-docker:latest"
                               ]
                             ]
                           }

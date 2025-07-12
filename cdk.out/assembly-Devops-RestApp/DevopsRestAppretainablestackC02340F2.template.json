@@ -1,13 +1,5 @@
 {
  "Resources": {
-  "dockerrepo402A8A40": {
-   "Type": "AWS::ECR::Repository",
-   "Properties": {
-    "RepositoryName": "ecr-repo"
-   },
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain"
-  },
   "s3bucket64CB25AF": {
    "Type": "AWS::S3::Bucket",
    "Properties": {

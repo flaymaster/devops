@@ -9,6 +9,15 @@
             "presentation": {
                 "reveal": "always"
             }
+        },
+        {
+            "label": "Deploy CDK",
+            "type": "shell",
+            "command": "cd cdk-app && source .venv/bin/activate && cdk deploy --no-version-reporting -a cdk.out/${input:assemblyName} -e --all --require-approval never",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
         }
     ]
 }

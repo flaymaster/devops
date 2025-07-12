@@ -462,7 +462,7 @@
          {
           "Ref": "AWS::URLSuffix"
          },
-         "/ecr-repo:latest"
+         "/rest-docker:latest"
         ]
        ]
       },
@@ -561,7 +561,7 @@
           {
            "Ref": "AWS::AccountId"
           },
-          ":repository/execution-runner"
+          ":repository/rest-docker"
          ]
         ]
        }
@@ -857,11 +857,18 @@
       "Fn::Join": [
        "",
        [
-        "472765722896.dkr.ecr.us-east-1.",
+        {
+         "Ref": "AWS::AccountId"
+        },
+        ".dkr.ecr.",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".",
         {
          "Ref": "AWS::URLSuffix"
         },
-        "/ecr-repo:latest"
+        "/queue-docker:latest"
        ]
       ]
      }

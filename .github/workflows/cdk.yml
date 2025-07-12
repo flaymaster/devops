@@ -54,16 +54,14 @@ jobs:
           python-version: '3.10'
       - name: Install CDK dependencies
         run: |
-          cd scripts
+          cd ../../scripts
           poetry install
       - name: CDK Synth
         run: |
-          cd cdk-app
           poetry run python ../scripts/build_cdk.py
       - name: Set Docker tags and deploy CDK
         env:
           REST_DOCKER_TAG: ${{ github.sha }}
           LAMBDA_DOCKER_TAG: ${{ github.run_number }}
         run: |
-          cd cdk-app
-          poetry run cdk deploy
+          poetry run cdk deploy --no-version-reporting -a cdk.out/assembly-Devops-RestApp -e --all --require-approval never"

@@ -10,7 +10,7 @@ if [ -z "$SERVICE" ]; then
   exit 1
 fi
 
-ECR_URI="472765722896.dkr.ecr.us-east-1.amazonaws.com/repository/$SERVICE"
+ECR_URI="472765722896.dkr.ecr.us-east-1.amazonaws.com/$SERVICE"
 DOCKER_DIR="services/docker"
 
 # Login to ECR

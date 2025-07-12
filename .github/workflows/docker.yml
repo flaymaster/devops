@@ -3,14 +3,16 @@
 name: CI
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
     inputs:
-      docker_tag:
-        description: 'Docker image tag to use for build and push'
+      rest_docker_tag:
+        description: 'Docker image tag for REST service'
+        required: false
+        default: 'latest'
+      lambda_docker_tag:
+        description: 'Docker image tag for Lambda service'
         required: false
         default: 'latest'
 

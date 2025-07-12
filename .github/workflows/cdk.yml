@@ -7,8 +7,12 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
     inputs:
-      docker_tag:
-        description: 'Docker image tag to use for build and push'
+      rest_docker_tag:
+        description: 'Docker image tag for REST service'
+        required: false
+        default: 'latest'
+      lambda_docker_tag:
+        description: 'Docker image tag for Lambda service'
         required: false
         default: 'latest'
 jobs:
@@ -29,8 +33,8 @@ cdk-deploy:
     name: CDK Synth and Deploy
     runs-on: ubuntu-latest
     env:
-      REST_DOCKER_TAG: ${{ github.event.inputs.docker_tag || 'latest' }}
-      LAMBDA_DOCKER_TAG: ${{ github.event.inputs.docker_tag || 'latest' }}
+      REST_DOCKER_TAG: ${{ github.event.inputs.rest_docker_tag || 'latest' }}
+      LAMBDA_DOCKER_TAG: ${{ github.event.inputs.lambda_docker_tag || 'latest' }}
     needs: check-access
     steps:
       - uses: actions/checkout@v4

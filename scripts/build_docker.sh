@@ -25,6 +25,6 @@ if ! aws ecr describe-repositories --repository-names "$REPO_NAME" > /dev/null 2
     echo "Created ECR repository: $REPO_NAME"
 fi
 
-docker build . -f $DOCKER_DIR/$SERVICE/Dockerfile \&&
-docker tag ${SERVICE} ${ECR_URI}/${docker_name}:${TAG} &&
-docker push ${ECR_URI}/${docker_name}:${TAG}
+docker build . -f $DOCKER_DIR/$SERVICE/Dockerfile&&
+docker tag ${SERVICE} ${ECR_URI}/${SERVICE}:${TAG} &&
+docker push ${ECR_URI}/${SERVICE}:${TAG}

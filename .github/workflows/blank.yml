@@ -58,8 +58,7 @@ jobs:
   cdk-deploy:
     name: CDK Synth and Deploy
     runs-on: ubuntu-latest
-    needs: check-access
-    needs: [build-rest-docker, build-queue-docker]
+    needs: [build-rest-docker, build-queue-docker,check-access]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python

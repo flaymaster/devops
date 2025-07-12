@@ -1,14 +1,14 @@
-FROM python:3.10-slim
+FROM public.ecr.aws/lambda/python:3.10
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="${PATH}:/root/.local/bin"
 
-COPY app.py .
+COPY src/rest_docker/app.py .
 
-ENV FLASK_APP=app.py
+ENV FLASK_APP=src/rest_docker/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5000
+ENV FLASK_RUN_PORT=80
 
-CMD ["flask", "run"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "80"]

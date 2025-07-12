@@ -12,6 +12,7 @@ from aws_cdk import aws_sqs as sqs
 from aws_cdk import Duration
 from aws_cdk import Aws
 from aws_cdk import aws_lambda
+import os
 
 
 class ExecutionRunnerStack(Stack):  # Fixed typo in class name
@@ -26,6 +27,8 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
         self.create_rest_load_balancer()
         self.create_sqs()
         self.create_docker_lambda()
+        self.rest_docker_tag = os.environ.get("REST_DOCKER_TAG", "latest")
+        self.lambda_docker_tag = os.environ.get("LAMBDA_DOCKER_TAG", "latest")
 
     def create_vpc(self, cidr_block):
         # Create VPC with proper subnet configuration
@@ -94,12 +97,12 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
         container = runner_task_definition.add_container(
             f'{name}-container',
             image=ecs.ContainerImage.from_ecr_repository(
-                repository=ecr.Repository.from_repository_attributes(
+                repository=ecr.Repository.from_repository_arn(
                     self,
                     f'{name}-repo',
-                    repository_arn=f'arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/{name}',
-                    repository_name='ecr-repo'
-                )
+                    repository_arn=f'arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/{name}'
+                ),
+                tag=self.rest_docker_tag
             ),
             logging=ecs.LogDriver.aws_logs(
                 stream_prefix='execution-runner',
@@ -132,6 +135,7 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
         )
 
     def create_docker_lambda(self):
+        # specific docker tag from env variable
         self.docker_lambda = aws_lambda.DockerImageFunction(
             self,
             "DockerLambda",
@@ -139,9 +143,10 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             code=aws_lambda.DockerImageCode.from_ecr(
                 repository=ecr.Repository.from_repository_arn(
                     self,
-                    "docker-repo",
-                    "arn:aws:ecr:us-east-1:472765722896:repository/ecr-repo"
-                )
+                    "docker-lambda-repo",
+                    repository_arn=f"arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/docker-lambda"
+                ),
+                tag=self.lambda_docker_tag
             ),
             timeout=Duration.seconds(60),
             environment={

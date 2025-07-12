@@ -9,7 +9,7 @@ if [ -z "$SERVICE" ]; then
   echo "Usage: $0 <service-name> [tag]"
   exit 1
 fi
-
+cur_dir=$(pwd)
 ECR_URI="472765722896.dkr.ecr.us-east-1.amazonaws.com/$SERVICE"
 DOCKER_DIR="docker"
 
@@ -24,7 +24,7 @@ if ! aws ecr describe-repositories --repository-names "$REPO_NAME" > /dev/null 2
     aws ecr create-repository --repository-name "$REPO_NAME"
     echo "Created ECR repository: $REPO_NAME"
 fi
-
+cd $cur_dir
 docker build . -f $DOCKER_DIR/$SERVICE/Dockerfile&&
 docker tag ${SERVICE} ${ECR_URI}/${SERVICE}:${TAG} &&
 docker push ${ECR_URI}/${SERVICE}:${TAG}

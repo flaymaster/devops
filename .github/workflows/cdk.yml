@@ -29,38 +29,38 @@ jobs:
       - name: Verify AWS credentials
         run: |
           aws sts get-caller-identity
-cdk-deploy:
-    name: CDK Synth and Deploy
-    runs-on: ubuntu-latest
-    env:
-      REST_DOCKER_TAG: ${{ github.event.inputs.rest_docker_tag || 'latest' }}
-      LAMBDA_DOCKER_TAG: ${{ github.event.inputs.lambda_docker_tag || 'latest' }}
-    needs: check-access
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Install CDK dependencies
-        run: |
-          cd cdk-app
-          pip install poetry
-          poetry install
-      - name: CDK Synth
-        run: |
-          cd cdk-app
-          poetry run python scripts/build_cdk.py
-      - name: Set Docker tags and deploy CDK
-        env:
-          REST_DOCKER_TAG: ${{ github.sha }}
-          LAMBDA_DOCKER_TAG: ${{ github.run_number }}
-        run: |
-          cd cdk-app
-          poetry run cdk deploy
+  cdk-deploy:
+      name: CDK Synth and Deploy
+      runs-on: ubuntu-latest
+      env:
+        REST_DOCKER_TAG: ${{ github.event.inputs.rest_docker_tag || 'latest' }}
+        LAMBDA_DOCKER_TAG: ${{ github.event.inputs.lambda_docker_tag || 'latest' }}
+      needs: check-access
+      steps:
+        - uses: actions/checkout@v4
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+        - name: Install CDK dependencies
+          run: |
+            cd cdk-app
+            pip install poetry
+            poetry install
+        - name: CDK Synth
+          run: |
+            cd cdk-app
+            poetry run python scripts/build_cdk.py
+        - name: Set Docker tags and deploy CDK
+          env:
+            REST_DOCKER_TAG: ${{ github.sha }}
+            LAMBDA_DOCKER_TAG: ${{ github.run_number }}
+          run: |
+            cd cdk-app
+            poetry run cdk deploy

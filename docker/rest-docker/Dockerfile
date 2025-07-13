@@ -1,19 +1,24 @@
-FROM python:3.10
+FROM public.ecr.aws/lambda/python:3.10
+
+RUN mkdir -p /app
 
 WORKDIR /app
 
-# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="${PATH}:/root/.local/bin"
 
-RUN pip install poetry
-
-# Copy dependency files first for better caching
-COPY pyproject.toml poetry.lock* ./
+COPY docker/rest-docker/pyproject.toml ./
 
 # Install dependencies
+COPY pyproject.toml poetry.lock* ./
 RUN poetry install --no-root
 
-# Copy your application code
-COPY src/rest_docker/ ./rest_docker/
+COPY docker/rest-docker/src/rest_docker/app.py .
 
-# Set the entrypoint (adjust as needed)
-CMD ["poetry", "run", "python", "-m", "rest_docker.app"]
+ENV FLASK_APP=docker/rest-docker/src/rest_docker/app.py 
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=80
+
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "80"]
+ENTRYPOINT ["python", "-u", "app.py"]
+

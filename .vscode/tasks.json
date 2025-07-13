@@ -13,7 +13,7 @@
         {
             "label": "Deploy CDK",
             "type": "shell",
-            "command": "cd cdk.out && cdk deploy --no-version-reporting -a assembly-Devops-RestApp -e --all --require-approval never",
+            "command": "cd cdk.out && cdk deploy --no-version-reporting -a assembly-Devops-RestApp -e --all --require-approval never --profile personal",
             "presentation": {
                 "reveal": "always"
             },

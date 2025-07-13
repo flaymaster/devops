@@ -13,7 +13,7 @@
         {
             "label": "Deploy CDK",
             "type": "shell",
-            "command": "cd cdk-app && source .venv/bin/activate && cdk deploy --no-version-reporting -a cdk.out/${input:assemblyName} -e --all --require-approval never",
+            "command": "cd cdk.out && cdk deploy --no-version-reporting -a assembly-Devops-RestApp -e --all --require-approval never",
             "presentation": {
                 "reveal": "always"
             },

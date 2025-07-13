@@ -12,4 +12,4 @@ ENV FLASK_APP=/app/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=80
 
-ENTRYPOINT ["flask", "run", "-p", "80:80",'-host', "0.0.0.0"]
+ENTRYPOINT ["flask", "run", "--host=0.0.0.0", "--port=80"]

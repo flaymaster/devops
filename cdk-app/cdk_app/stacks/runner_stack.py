@@ -79,17 +79,14 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             f'{name}-task-role',
             assumed_by=iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
             inline_policies={
-                "dynamodb_access": iam.PolicyDocument(
+                "ssm_access": iam.PolicyDocument(
                     statements=[
                         iam.PolicyStatement(
                             actions=[
-                                "dynamodb:PutItem",
-                                "dynamodb:UpdateItem",
-                                "dynamodb:GetItem",
-                                "dynamodb:Query",
-                                "dynamodb:Scan"
+                                "ssm:GetParameter"
                             ],
-                            resources=["*"]
+                            resources=[
+                                "arn:aws:ssm:us-east-1:472765722896:parameter/elb/token"]
                         )
                     ]
                 )

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import boto3
 import os
 import time
+import json
 
 app = Flask(__name__)
 
@@ -15,7 +16,9 @@ sqs = boto3.client('sqs', region_name=os.environ.get(
 def get_expected_token():
     param_name = os.environ.get('TOKEN_PARAM_NAME')
     response = ssm.get_parameter(Name=param_name, WithDecryption=True)
-    return response['Parameter']['Value']
+    param_value = response['Parameter']['Value']
+    # Parse the JSON string and extract the token
+    return json.loads(param_value)['token']
 
 
 @app.route("/", methods=["POST"])

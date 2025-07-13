@@ -4,21 +4,15 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="${PATH}:/root/.local/bin"
+COPY docker/rest-docker/requirements.txt /app
+RUN pip3 install -r requirements.txt
 
-COPY docker/rest-docker/pyproject.toml ./
 
-# Install dependencies
-COPY pyproject.toml poetry.lock* ./
-RUN poetry install --no-root
 
-COPY docker/rest-docker/src/rest_docker/app.py .
+COPY docker/rest-docker/src/rest_docker/app.py /app
 
-ENV FLASK_APP=docker/rest-docker/src/rest_docker/app.py 
+ENV FLASK_APP=/app/app.py 
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=80
 
-CMD ["flask", "run", "--host", "0.0.0.0", "--port", "80"]
-ENTRYPOINT ["python", "-u", "app.py"]
-
+ENTRYPOINT ["flask", "run", "-p", "80:80",'-host', "0.0.0.0"]

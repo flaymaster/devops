@@ -18,9 +18,6 @@ def get_expected_token():
     return response['Parameter']['Value']
 
 
-EXPECTED_TOKEN = get_expected_token()
-
-
 @app.route("/", methods=["POST"])
 def handle_event():
     try:
@@ -31,6 +28,7 @@ def handle_event():
         token = payload["token"]
         data = payload["data"]
 
+        EXPECTED_TOKEN = get_expected_token()
         # Token validation
         if token != EXPECTED_TOKEN:
             return jsonify({"error": "Invalid token"}), 403
@@ -54,3 +52,7 @@ def handle_event():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)

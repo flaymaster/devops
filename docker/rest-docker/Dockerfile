@@ -4,10 +4,7 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY docker/rest-docker/requirements.txt /app
-RUN pip3 install -r requirements.txt
-
-
+RUN pip install --no-cache-dir flask boto3
 
 COPY docker/rest-docker/src/rest_docker/app.py /app
 

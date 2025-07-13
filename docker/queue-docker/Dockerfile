@@ -9,13 +9,13 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:/root/.local/bin"
 
 # Copy dependency files first (for better Docker caching)
-COPY docker/queue-docker/pyproject.toml .
+COPY docker/queue-docker/pyproject.toml /app
 
 # Install dependencies
 RUN poetry install --no-root
 
 # Copy your application code
-COPY docker/queue-docker/src/queue_docker/app.py .
+COPY docker/queue-docker/src/queue_docker/app.py /app
 
 # Set the Lambda handler
 ENTRYPOINT ["python", "-u", "queue_docker.app"]

@@ -32,6 +32,7 @@ def handle_event():
         data = payload["data"]
 
         EXPECTED_TOKEN = get_expected_token()
+        print(f"Expected token: {EXPECTED_TOKEN}")
         # Token validation
         if token != EXPECTED_TOKEN:
             return jsonify({"error": "Invalid token"}), 403

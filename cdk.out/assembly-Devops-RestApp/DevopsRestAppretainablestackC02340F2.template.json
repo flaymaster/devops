@@ -3,7 +3,17 @@
   "s3bucket64CB25AF": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "BucketName": "s3-bucket"
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "s3-checkpoint-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    }
    },
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain"

@@ -1,4 +1,4 @@
-# This workflow contains two jobs: one for building Docker images in parallel, and one for CDK synth and deploy.
+# This workflow contains a job for CDK synth and deploy, running inside a custom Docker image from ECR.
 
 name: CDK
 
@@ -15,23 +15,17 @@ on:
         description: 'Docker image tag for Lambda service'
         required: false
         default: 'latest'
+
 jobs:
-  # ecr-login:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-east-1
-  #     - name: Login to Amazon ECR
-  #       run: |
-  #         aws ecr get-login-password --region us-east-1 | \
-  #         docker login --username AWS --password-stdin 472765722896.dkr.ecr.us-east-1.amazonaws.com
   cdk-deploy:
     name: CDK Synth and Deploy
     runs-on: ubuntu-latest
+    # If your ECR image is private, you must set up OIDC or another authentication method for GitHub Actions to pull it
+    container:
+      image: 472765722896.dkr.ecr.us-east-1.amazonaws.com/cdk-docker:latest
+    env:
+      REST_DOCKER_TAG: ${{ github.event.inputs.rest_docker_tag || 'latest' }}
+      LAMBDA_DOCKER_TAG: ${{ github.event.inputs.lambda_docker_tag || 'latest' }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS credentials
@@ -40,15 +34,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region us-east-1 | \
-          docker login --username AWS --password-stdin 472765722896.dkr.ecr.us-east-1.amazonaws.com
-      - name: Pull and run your ECR image
-        run: |
-          docker pull 472765722896.dkr.ecr.us-east-1.amazonaws.com/cdk-docker:latest
-          # Optionally run a command in the container:
-          # docker run --rm 472765722896.dkr.ecr.us-east-1.amazonaws.com/cdk-docker:latest <your-cmd>
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -65,4 +50,4 @@ jobs:
           REST_DOCKER_TAG: ${{ github.sha }}
           LAMBDA_DOCKER_TAG: ${{ github.run_number }}
         run: |
-          poetry run cdk deploy --no-version-reporting -a cdk.out/assembly-Devops-RestApp -e --all --require-approval never"
+          poetry run cdk deploy --no-version-reporting -a cdk.out/assembly-Devops-RestApp -e --all --require-approval never

@@ -22,7 +22,17 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                       "aws:cdk:cloudformation:props": {
-                        "bucketName": "s3-bucket"
+                        "bucketName": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "s3-checkpoint-",
+                              {
+                                "Ref": "AWS::AccountId"
+                              }
+                            ]
+                          ]
+                        }
                       }
                     },
                     "constructInfo": {
@@ -876,7 +886,13 @@
                                 },
                                 "mode": "non-blocking"
                               }
-                            }
+                            },
+                            "environment": [
+                              {
+                                "name": "TOKEN_PARAM_NAME",
+                                "value": "/elb/token"
+                              }
+                            ]
                           }
                         ],
                         "cpu": "1024",
@@ -1481,6 +1497,56 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.94.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "sqs:ReceiveMessage",
+                                        "sqs:ChangeMessageVisibility",
+                                        "sqs:GetQueueUrl",
+                                        "sqs:DeleteMessage",
+                                        "sqs:GetQueueAttributes"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::GetAtt": [
+                                          "bucketqueue62E0843A",
+                                          "Arn"
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "DockerLambdaServiceRoleDefaultPolicyB5060253",
+                                "roles": [
+                                  {
+                                    "Ref": "DockerLambdaServiceRoleFB7B439F"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.94.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
                           "version": "2.94.0"
                         }
                       }

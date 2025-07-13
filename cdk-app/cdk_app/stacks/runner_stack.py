@@ -74,25 +74,38 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             vpc=self.vpc,
             container_insights=True
         )
-        task_role = iam.Role(self, f'{name}-task-role', assumed_by=iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
-                             inline_policies={"dynamodb_access": iam.PolicyDocument(statements=[
-                                 iam.PolicyStatement(
-                                     actions=[
-                                         "dynamodb:PutItem",
-                                         "dynamodb:UpdateItem",
-                                         "dynamodb:GetItem",
-                                         "dynamodb:Query",
-                                         "dynamodb:Scan"
-                                     ],
-                                     resources=[
-                                         "*"
-                                     ]
-                                 )
-                             ])})
+        task_role = iam.Role(
+            self,
+            f'{name}-task-role',
+            assumed_by=iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
+            inline_policies={
+                "dynamodb_access": iam.PolicyDocument(
+                    statements=[
+                        iam.PolicyStatement(
+                            actions=[
+                                "dynamodb:PutItem",
+                                "dynamodb:UpdateItem",
+                                "dynamodb:GetItem",
+                                "dynamodb:Query",
+                                "dynamodb:Scan"
+                            ],
+                            resources=["*"]
+                        )
+                    ]
+                )
+            }
+        )
         runner_task_definition = ecs.FargateTaskDefinition(
-            self, f'{name}-task-definition', cpu=1024, memory_limit_mib=3072, family=f'{name}', task_role=task_role,
-
-            runtime_platform=ecs.RuntimePlatform(operating_system_family=ecs.OperatingSystemFamily.LINUX))
+            self,
+            f'{name}-task-definition',
+            cpu=1024,
+            memory_limit_mib=3072,
+            family=f'{name}',
+            task_role=task_role,
+            runtime_platform=ecs.RuntimePlatform(
+                operating_system_family=ecs.OperatingSystemFamily.LINUX
+            )
+        )
 
         container = runner_task_definition.add_container(
             f'{name}-container',
@@ -100,11 +113,17 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
                 repository=ecr.Repository.from_repository_attributes(
                     self,
                     f'{name}-repo',
-                    repository_arn=f'arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/rest-docker',  # noqa
+                    repository_arn=(
+                        f'arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:'
+                        'repository/rest-docker'
+                    ),  # noqa
                     repository_name='rest-docker'
                 ),
-                tag=self.rest_docker_tag
+                tag=self.rest_docker_tag,
             ),
+            environment={
+                'TOKEN_PARAM_NAME': '/elb/token'
+            },
             logging=ecs.LogDriver.aws_logs(
                 stream_prefix='execution-runner',
                 mode=ecs.AwsLogDriverMode.NON_BLOCKING,
@@ -126,7 +145,7 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
         )
 
     def create_sqs(self):
-        self.pdf_report_queue = sqs.Queue(
+        self.check_point_queue = sqs.Queue(
             self,
             "bucket-queue",
             queue_name="bucket-queue",
@@ -145,7 +164,10 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
                 repository=ecr.Repository.from_repository_attributes(
                     self,
                     "docker-lambda-repo",
-                    repository_arn=f"arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:repository/queue-docker",
+                    repository_arn=(
+                        f"arn:aws:ecr:{Aws.REGION}:{Aws.ACCOUNT_ID}:"
+                        "repository/queue-docker"
+                    ),
                     repository_name="queue-docker"
                 ),
                 tag=self.lambda_docker_tag
@@ -156,4 +178,9 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             }
         )
         self.docker_lambda.add_event_source_mapping(
-            "Pdf_report_trigger_lambda", event_source_arn=self.pdf_report_queue.queue_arn, batch_size=1)
+            "Pdf_report_trigger_lambda",
+            event_source_arn=self.check_point_queue.queue_arn,
+            batch_size=1
+        )
+        # Grant Lambda permissions to consume messages from the SQS queue
+        self.check_point_queue.grant_consume_messages(self.docker_lambda)

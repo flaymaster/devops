@@ -446,6 +446,12 @@
    "Properties": {
     "ContainerDefinitions": [
      {
+      "Environment": [
+       {
+        "Name": "TOKEN_PARAM_NAME",
+        "Value": "/elb/token"
+       }
+      ],
       "Essential": true,
       "Image": {
        "Fn::Join": [
@@ -849,6 +855,38 @@
     ]
    }
   },
+  "DockerLambdaServiceRoleDefaultPolicyB5060253": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:ChangeMessageVisibility",
+        "sqs:GetQueueUrl",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "bucketqueue62E0843A",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DockerLambdaServiceRoleDefaultPolicyB5060253",
+    "Roles": [
+     {
+      "Ref": "DockerLambdaServiceRoleFB7B439F"
+     }
+    ]
+   }
+  },
   "DockerLambda14243288": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
@@ -889,6 +927,7 @@
     "Timeout": 60
    },
    "DependsOn": [
+    "DockerLambdaServiceRoleDefaultPolicyB5060253",
     "DockerLambdaServiceRoleFB7B439F"
    ]
   },

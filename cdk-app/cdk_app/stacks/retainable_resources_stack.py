@@ -7,6 +7,7 @@ from constructs import Construct
 from aws_cdk import aws_ssm as ssm
 from aws_cdk import aws_s3 as s3
 import json
+from aws_cdk import Aws
 
 
 class RetainableStack(Stack):
@@ -26,7 +27,7 @@ class RetainableStack(Stack):
         self.s3_bucket = s3.Bucket(
             self,
             "s3-bucket",
-            bucket_name="s3-bucket",
+            bucket_name=f"s3-checkpoint-{Aws.ACCOUNT_ID}",
         )
 
     def create_ssm(self):

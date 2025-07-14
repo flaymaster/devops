@@ -58,7 +58,7 @@
                       "aws:cdk:cloudformation:props": {
                         "name": "/elb/token",
                         "type": "String",
-                        "value": "{\"token\": \"@YMRCSdc4hPaj&qY\"}"
+                        "value": "{\"token\": null}"
                       }
                     },
                     "constructInfo": {

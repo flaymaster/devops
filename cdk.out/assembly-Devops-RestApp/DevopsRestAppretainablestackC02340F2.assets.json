@@ -1,7 +1,7 @@
 {
   "version": "34.0.0",
   "files": {
-    "d47676d1d77e10492e565d0399f278ba954703e2d917af8694a8a852d79b5f1e": {
+    "1df7c9e9dad4759c1baf7532c332f57a3f5d8e4714b1fef2225ccf3986e20ae8": {
       "source": {
         "path": "DevopsRestAppretainablestackC02340F2.template.json",
         "packaging": "file"
@@ -9,7 +9,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "d47676d1d77e10492e565d0399f278ba954703e2d917af8694a8a852d79b5f1e.json",
+          "objectKey": "1df7c9e9dad4759c1baf7532c332f57a3f5d8e4714b1fef2225ccf3986e20ae8.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

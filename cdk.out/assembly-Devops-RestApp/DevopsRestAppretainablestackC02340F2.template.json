@@ -23,7 +23,7 @@
    "Properties": {
     "Name": "/elb/token",
     "Type": "String",
-    "Value": "{\"token\": \"@YMRCSdc4hPaj&qY\"}"
+    "Value": "{\"token\": null}"
    }
   }
  },

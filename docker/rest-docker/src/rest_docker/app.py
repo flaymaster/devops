@@ -39,7 +39,7 @@ def handle_event():
         logger.info(f"Expected token: {EXPECTED_TOKEN}")
         # Token validation
         if token != EXPECTED_TOKEN:
-            return jsonify({"error": "Invalid token"}), 403
+            return jsonify({"error": f"Invalid token: {token}"}), 403
         logger.info("Token validated successfully")
         # ensure email timestream is present and valid
         ts = data.get("email_timestream")

@@ -8,6 +8,7 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.10"
 flask = "^2.3.0"
 boto3 = "^1.28.0"
+aws-lambda-powertools = "^3.16.0"
 
 [build-system]
 requires = ["poetry-core"]

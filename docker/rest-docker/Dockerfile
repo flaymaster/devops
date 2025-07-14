@@ -4,7 +4,7 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir flask boto3
+RUN pip install --no-cache-dir flask boto3 aws-lambda-powertools
 
 COPY docker/rest-docker/src/rest_docker/app.py /app
 

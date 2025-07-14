@@ -13,14 +13,17 @@ from aws_cdk import Duration
 from aws_cdk import Aws
 from aws_cdk import aws_lambda
 import os
+from cdk_app.stacks.retainable_resources_stack import RetainableStack
 
 
 class ExecutionRunnerStack(Stack):  # Fixed typo in class name
     def __init__(self,
                  scope: Construct,
                  _id: str,
+                 retainable_stack: RetainableStack,
                  ** kwargs) -> None:
         super().__init__(scope, _id, **kwargs)
+        self.retainable_stack = retainable_stack
         self.vpc = self.create_vpc(
             cidr_block="10.90.0.0/16")
         self.rest_docker_tag = os.environ.get("REST_DOCKER_TAG", "latest")
@@ -119,10 +122,11 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
                 tag=self.rest_docker_tag,
             ),
             environment={
-                'TOKEN_PARAM_NAME': '/elb/token'
+                'TOKEN_PARAM_NAME': '/elb/token',
+                'SQS_QUEUE_URL': self.check_point_queue.queue_url
             },
             logging=ecs.LogDriver.aws_logs(
-                stream_prefix='execution-runner',
+                stream_prefix='execution-runner-logs',
                 mode=ecs.AwsLogDriverMode.NON_BLOCKING,
                 log_retention=logs.RetentionDays.ONE_MONTH
             )
@@ -171,7 +175,7 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             ),
             timeout=Duration.seconds(60),
             environment={
-                'TOKEN_PARAM_NAME': '/elb/token'
+                'S3_BUCKET_NAME': self.retainable_stack.check_point_bucket.bucket_name,
             }
         )
         self.docker_lambda.add_event_source_mapping(

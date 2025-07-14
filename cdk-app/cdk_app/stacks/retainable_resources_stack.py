@@ -19,7 +19,7 @@ class RetainableStack(Stack):
         super().__init__(scope, _id, cross_region_references=True, **kwargs)
         # self.create_rest_ecr()
         # self.create_lambda_ecr()
-        self.create_s3_bucket()
+        self.check_point_bucket = self.create_s3_bucket()
         self.ssm_param = "/elb/token"
         self.version_parameter: ssm.StringParameter = self.create_ssm()
 
@@ -29,6 +29,7 @@ class RetainableStack(Stack):
             "s3-bucket",
             bucket_name=f"s3-checkpoint-{Aws.ACCOUNT_ID}",
         )
+        return self.s3_bucket
 
     def create_ssm(self):
         versions = {'token': '@YMRCSdc4hPaj&qY'}

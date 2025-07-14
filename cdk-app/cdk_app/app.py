@@ -11,6 +11,6 @@ class RestApp(Stage):
 
         super().__init__(app, stage_name, env={
             'region': os.getenv('CDK_DEFAULT_REGION')})
-        RetainableStack(self, "retainable-stack")
+        retainable_stack = RetainableStack(self, "retainable-stack")
         ExecutionRunnerStack(
-            self, "execute-runner-stack")
+            self, "execute-runner-stack", retainable_stack=retainable_stack)

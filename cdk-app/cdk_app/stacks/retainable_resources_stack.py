@@ -8,6 +8,7 @@ from aws_cdk import aws_ssm as ssm
 from aws_cdk import aws_s3 as s3
 import json
 from aws_cdk import Aws
+import os
 
 
 class RetainableStack(Stack):
@@ -17,8 +18,6 @@ class RetainableStack(Stack):
             _id: str,
             ** kwargs) -> None:
         super().__init__(scope, _id, cross_region_references=True, **kwargs)
-        # self.create_rest_ecr()
-        # self.create_lambda_ecr()
         self.check_point_bucket = self.create_s3_bucket()
         self.ssm_param = "/elb/token"
         self.version_parameter: ssm.StringParameter = self.create_ssm()
@@ -32,7 +31,7 @@ class RetainableStack(Stack):
         return self.s3_bucket
 
     def create_ssm(self):
-        versions = {'token': '@YMRCSdc4hPaj&qY'}
+        versions = {'token': os.getenv('SSM_TOKEN')}
         version_parameter = ssm.StringParameter(self,
                                                 id='token-param',
                                                 parameter_name=self.ssm_param,

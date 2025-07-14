@@ -391,6 +391,17 @@
     }
    }
   },
+  "bucketqueue62E0843A": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": "alias/aws/sqs",
+    "MessageRetentionPeriod": 120,
+    "QueueName": "bucket-queue",
+    "VisibilityTimeout": 900
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
   "executionrunnerclusterDDF394A6": {
    "Type": "AWS::ECS::Cluster",
    "Properties": {
@@ -423,12 +434,15 @@
       "PolicyDocument": {
        "Statement": [
         {
+         "Action": "ssm:GetParameter",
+         "Effect": "Allow",
+         "Resource": "arn:aws:ssm:us-east-1:472765722896:parameter/elb/token"
+        },
+        {
          "Action": [
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem",
-          "dynamodb:GetItem",
-          "dynamodb:Query",
-          "dynamodb:Scan"
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "logs:CreateLogGroup"
          ],
          "Effect": "Allow",
          "Resource": "*"
@@ -436,7 +450,7 @@
        ],
        "Version": "2012-10-17"
       },
-      "PolicyName": "dynamodb_access"
+      "PolicyName": "ssm_and_logs_access"
      }
     ]
    }
@@ -450,6 +464,12 @@
        {
         "Name": "TOKEN_PARAM_NAME",
         "Value": "/elb/token"
+       },
+       {
+        "Name": "SQS_QUEUE_URL",
+        "Value": {
+         "Ref": "bucketqueue62E0843A"
+        }
        }
       ],
       "Essential": true,
@@ -478,7 +498,7 @@
         "awslogs-group": {
          "Ref": "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F"
         },
-        "awslogs-stream-prefix": "execution-runner",
+        "awslogs-stream-prefix": "execution-runner-logs",
         "awslogs-region": {
          "Ref": "AWS::Region"
         },
@@ -813,17 +833,6 @@
     }
    }
   },
-  "bucketqueue62E0843A": {
-   "Type": "AWS::SQS::Queue",
-   "Properties": {
-    "KmsMasterKeyId": "alias/aws/sqs",
-    "MessageRetentionPeriod": 120,
-    "QueueName": "bucket-queue",
-    "VisibilityTimeout": 900
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
-  },
   "DockerLambdaServiceRoleFB7B439F": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -913,7 +922,9 @@
     },
     "Environment": {
      "Variables": {
-      "TOKEN_PARAM_NAME": "/elb/token"
+      "S3_BUCKET_NAME": {
+       "Fn::ImportValue": "Devops-RestApp-retainable-stack:ExportsOutputRefs3bucket64CB25AF0DF92BD8"
+      }
      }
     },
     "FunctionName": "docker-lambda",

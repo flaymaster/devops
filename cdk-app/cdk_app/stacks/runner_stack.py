@@ -28,9 +28,9 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             cidr_block="10.90.0.0/16")
         self.rest_docker_tag = os.environ.get("REST_DOCKER_TAG", "latest")
         self.lambda_docker_tag = os.environ.get("LAMBDA_DOCKER_TAG", "latest")
+        self.create_sqs()
         self.create_execution_runner()
         self.create_rest_load_balancer()
-        self.create_sqs()
         self.create_docker_lambda()
 
     def create_vpc(self, cidr_block):
@@ -82,14 +82,25 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             f'{name}-task-role',
             assumed_by=iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
             inline_policies={
-                "ssm_access": iam.PolicyDocument(
+                "ssm_and_logs_access": iam.PolicyDocument(
                     statements=[
                         iam.PolicyStatement(
                             actions=[
                                 "ssm:GetParameter"
                             ],
                             resources=[
-                                "arn:aws:ssm:us-east-1:472765722896:parameter/elb/token"]
+                                "arn:aws:ssm:us-east-1:472765722896:parameter/elb/token"
+                            ]
+                        ),
+                        iam.PolicyStatement(
+                            actions=[
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents",
+                                "logs:CreateLogGroup"
+                            ],
+                            resources=[
+                                "*"
+                            ]
                         )
                     ]
                 )
@@ -154,6 +165,7 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
             retention_period=Duration.seconds(120),
             visibility_timeout=Duration.seconds(900)
         )
+        return self.check_point_queue
 
     def create_docker_lambda(self):
         # specific docker tag from env variable

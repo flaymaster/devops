@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/22f31d9c26b8bcfa0eaaf4f683e6a79890aed5c614c67b5795c5e637312be0ea.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d47676d1d77e10492e565d0399f278ba954703e2d917af8694a8a852d79b5f1e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -44,6 +44,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "tokenparam576DA50A"
+          }
+        ],
+        "/Devops-RestApp/retainable-stack/Exports/Output{\"Ref\":\"s3bucket64CB25AF\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefs3bucket64CB25AF0DF92BD8"
           }
         ],
         "/Devops-RestApp/retainable-stack/BootstrapVersion": [
@@ -77,7 +83,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5dd7d7ce577f446d72bfe45fd4f783ddd4f73e4ce1f3fbd303df971c4d5a4e68.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b9d3e4df12473ebc68611c58c7fa3562c16b1a68e106c2b78a889a408c65598d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -91,6 +97,7 @@
         "stackName": "Devops-RestApp-execute-runner-stack"
       },
       "dependencies": [
+        "DevopsRestAppretainablestackC02340F2",
         "DevopsRestAppexecuterunnerstack3E97D5F9.assets"
       ],
       "metadata": {
@@ -232,6 +239,12 @@
             "data": "MYVPCVPCGW987E8909"
           }
         ],
+        "/Devops-RestApp/execute-runner-stack/bucket-queue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bucketqueue62E0843A"
+          }
+        ],
         "/Devops-RestApp/execute-runner-stack/execution-runner-cluster/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -314,12 +327,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RestLoadBalancerListenerECSGroup470E34CA"
-          }
-        ],
-        "/Devops-RestApp/execute-runner-stack/bucket-queue/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "bucketqueue62E0843A"
           }
         ],
         "/Devops-RestApp/execute-runner-stack/DockerLambda/ServiceRole/Resource": [

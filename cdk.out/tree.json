@@ -72,6 +72,24 @@
                   "version": "2.94.0"
                 }
               },
+              "Exports": {
+                "id": "Exports",
+                "path": "Devops-RestApp/retainable-stack/Exports",
+                "children": {
+                  "Output{\"Ref\":\"s3bucket64CB25AF\"}": {
+                    "id": "Output{\"Ref\":\"s3bucket64CB25AF\"}",
+                    "path": "Devops-RestApp/retainable-stack/Exports/Output{\"Ref\":\"s3bucket64CB25AF\"}",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnOutput",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.4.2"
+                }
+              },
               "BootstrapVersion": {
                 "id": "BootstrapVersion",
                 "path": "Devops-RestApp/retainable-stack/BootstrapVersion",
@@ -741,6 +759,33 @@
                   "version": "2.94.0"
                 }
               },
+              "bucket-queue": {
+                "id": "bucket-queue",
+                "path": "Devops-RestApp/execute-runner-stack/bucket-queue",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "Devops-RestApp/execute-runner-stack/bucket-queue/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "kmsMasterKeyId": "alias/aws/sqs",
+                        "messageRetentionPeriod": 120,
+                        "queueName": "bucket-queue",
+                        "visibilityTimeout": 900
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
+                      "version": "2.94.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_sqs.Queue",
+                  "version": "2.94.0"
+                }
+              },
               "execution-runner-cluster": {
                 "id": "execution-runner-cluster",
                 "path": "Devops-RestApp/execute-runner-stack/execution-runner-cluster",
@@ -803,16 +848,19 @@
                         },
                         "policies": [
                           {
-                            "policyName": "dynamodb_access",
+                            "policyName": "ssm_and_logs_access",
                             "policyDocument": {
                               "Statement": [
                                 {
+                                  "Action": "ssm:GetParameter",
+                                  "Effect": "Allow",
+                                  "Resource": "arn:aws:ssm:us-east-1:472765722896:parameter/elb/token"
+                                },
+                                {
                                   "Action": [
-                                    "dynamodb:PutItem",
-                                    "dynamodb:UpdateItem",
-                                    "dynamodb:GetItem",
-                                    "dynamodb:Query",
-                                    "dynamodb:Scan"
+                                    "logs:CreateLogStream",
+                                    "logs:PutLogEvents",
+                                    "logs:CreateLogGroup"
                                   ],
                                   "Effect": "Allow",
                                   "Resource": "*"
@@ -880,7 +928,7 @@
                                 "awslogs-group": {
                                   "Ref": "executionrunnertaskdefinitionexecutionrunnercontainerLogGroup58B4905F"
                                 },
-                                "awslogs-stream-prefix": "execution-runner",
+                                "awslogs-stream-prefix": "execution-runner-logs",
                                 "awslogs-region": {
                                   "Ref": "AWS::Region"
                                 },
@@ -891,6 +939,12 @@
                               {
                                 "name": "TOKEN_PARAM_NAME",
                                 "value": "/elb/token"
+                              },
+                              {
+                                "name": "SQS_QUEUE_URL",
+                                "value": {
+                                  "Ref": "bucketqueue62E0843A"
+                                }
                               }
                             ]
                           }
@@ -1410,33 +1464,6 @@
                   "version": "2.94.0"
                 }
               },
-              "bucket-queue": {
-                "id": "bucket-queue",
-                "path": "Devops-RestApp/execute-runner-stack/bucket-queue",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "Devops-RestApp/execute-runner-stack/bucket-queue/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
-                      "aws:cdk:cloudformation:props": {
-                        "kmsMasterKeyId": "alias/aws/sqs",
-                        "messageRetentionPeriod": 120,
-                        "queueName": "bucket-queue",
-                        "visibilityTimeout": 900
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
-                      "version": "2.94.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_sqs.Queue",
-                  "version": "2.94.0"
-                }
-              },
               "docker-lambda-repo": {
                 "id": "docker-lambda-repo",
                 "path": "Devops-RestApp/execute-runner-stack/docker-lambda-repo",
@@ -1585,7 +1612,9 @@
                         },
                         "environment": {
                           "variables": {
-                            "TOKEN_PARAM_NAME": "/elb/token"
+                            "S3_BUCKET_NAME": {
+                              "Fn::ImportValue": "Devops-RestApp-retainable-stack:ExportsOutputRefs3bucket64CB25AF0DF92BD8"
+                            }
                           }
                         },
                         "functionName": "docker-lambda",

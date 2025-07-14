@@ -27,6 +27,16 @@
    }
   }
  },
+ "Outputs": {
+  "ExportsOutputRefs3bucket64CB25AF0DF92BD8": {
+   "Value": {
+    "Ref": "s3bucket64CB25AF"
+   },
+   "Export": {
+    "Name": "Devops-RestApp-retainable-stack:ExportsOutputRefs3bucket64CB25AF0DF92BD8"
+   }
+  }
+ },
  "Parameters": {
   "BootstrapVersion": {
    "Type": "AWS::SSM::Parameter::Value<String>",

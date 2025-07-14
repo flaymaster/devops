@@ -55,7 +55,7 @@ def handle_event():
                          MessageBody=json.dumps(payload['data']))
         logger.info(
             f"SQS event sent to {queue_url} with data: {payload['data']}")
-        return jsonify({"message": "Accepted"}), 200
+        return jsonify({"message": "token and email_timestream validated"}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -1,6 +1,9 @@
-import sys
 import os
 import boto3
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def lambda_handler(event, context):
@@ -8,6 +11,7 @@ def lambda_handler(event, context):
     bucket_name = os.environ['S3_BUCKET_NAME']
     results = []
     records = event.get('Records', [])
+    logger.info(f"sqs event received: {records}")
     for record in records:
         body = record.get('body')
         message_id = record.get('messageId')
@@ -17,9 +21,8 @@ def lambda_handler(event, context):
             f.write(body)
         # Upload to S3
         s3.upload_file(file_name, bucket_name, file_name)
-        print(f'Received SQS message: {body}', file=sys.stdout, flush=True)
-        print(f'Uploaded {file_name} to S3 bucket {bucket_name}',
-              file=sys.stdout, flush=True)
+        logger.info(f'Received SQS message: {body}')
+        logger.info(f'Uploaded {file_name} to S3 bucket {bucket_name}')
         results.append({
             'messageId': message_id,
             'status': 'processed',

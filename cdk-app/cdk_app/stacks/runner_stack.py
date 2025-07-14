@@ -101,6 +101,14 @@ class ExecutionRunnerStack(Stack):  # Fixed typo in class name
                             resources=[
                                 "*"
                             ]
+                        ),
+                        iam.PolicyStatement(
+                            actions=[
+                                "sqs:sendmessage"
+                            ],
+                            resources=[
+                                "arn:aws:sqs:us-east-1:472765722896:bucket-queue"
+                            ]
                         )
                     ]
                 )

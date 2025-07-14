@@ -16,6 +16,5 @@ RUN poetry install --no-root
 
 # Copy your application code
 COPY docker/queue-docker/src/queue_docker/app.py /app
-
 # Set the Lambda handler
-ENTRYPOINT ["python", "-u", "queue_docker.app"]
+ENTRYPOINT ["python", "-u", "app.py"]

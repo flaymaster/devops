@@ -3,7 +3,11 @@ import boto3
 import os
 import time
 import json
-from aws_lambda_powertools import Logger
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
 
 # AWS clients
@@ -23,7 +27,6 @@ def get_expected_token():
 
 @app.route("/", methods=["POST"])
 def handle_event():
-    logger = Logger(service="rest-docker")
     try:
         payload = request.get_json()
         if not payload or "data" not in payload or "token" not in payload:

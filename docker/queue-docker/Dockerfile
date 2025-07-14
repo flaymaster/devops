@@ -10,7 +10,7 @@ ENV PATH="${PATH}:/root/.local/bin"
 
 # Copy dependency files first (for better Docker caching)
 COPY docker/queue-docker/pyproject.toml /app
-
+RUN pip install --no-cache-dir boto3
 # Install dependencies
 RUN poetry install --no-root
 
